@@ -4,18 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "tsnd --respawn src/index.ts",
+    "start": "node build/index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@trpc/server": "^10.28.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mysql2": "^3.3.3",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.16"
+    "typeorm": "^0.3.16",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
