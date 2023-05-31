@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  ActionIcon,
+  ColorScheme,
+  Container,
+  Input,
+  MantineProvider,
+  Tooltip,
+} from "@mantine/core";
+import { trpc } from "./utils/trpc";
+import { type FC, useState, useRef } from "react";
+import { IconPlus, IconSunFilled, IconMoonFilled } from "@tabler/icons-react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [theme, setTheme] = useState<ColorScheme>("dark");
+  const contentRef = useRef<HTMLInputElement | null>(null);
+  const { data, isLoading, error } = trpc.todo.findAll.useQuery();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({ content: contentRef.current?.value });
+  };
+
+  console.log(data);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <MantineProvider
+      theme={{ colorScheme: theme }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
+      <Container>
+        <ThemeModeIcon
+          theme={theme}
+          onTheme={() =>
+            setTheme((prev) => (prev === "light" ? "dark" : "light"))
+          }
+        />
+        <form onSubmit={handleSubmit}>
+          <Input
+            ref={contentRef}
+            placeholder="Place your content here.."
+            rightSection={
+              <Tooltip label="Add todo!" position="top-end" withArrow>
+                <div>
+                  <IconPlus
+                    size="1rem"
+                    style={{ display: "block", opacity: 0.5 }}
+                  />
+                </div>
+              </Tooltip>
+            }
+          />
+        </form>
+      </Container>
+    </MantineProvider>
+  );
 }
 
-export default App
+interface ThemeModeIconProps {
+  theme: ColorScheme;
+  onTheme: () => void;
+}
+
+const ThemeModeIcon: FC<ThemeModeIconProps> = ({ theme, onTheme }) => {
+  return (
+    <ActionIcon
+      size="lg"
+      onClick={onTheme}
+      color="blue"
+      variant="filled"
+      pos={"absolute"}
+      top={20}
+      right={20}
+    >
+      {theme === "light" ? (
+        <IconMoonFilled size="1.2rem" />
+      ) : (
+        <IconSunFilled size="1.2rem" />
+      )}
+    </ActionIcon>
+  );
+};
+
+export default App;

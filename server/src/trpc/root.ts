@@ -2,7 +2,7 @@ import { router } from ".";
 import { todoRouter } from "./routes/todo";
 
 export const appRouter = router({
-  todoRouter,
+  todo: todoRouter,
 });
 
 // export type definition of API

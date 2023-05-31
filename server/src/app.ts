@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get(
+app.use(
   "/trpc",
   trpcExpress.createExpressMiddleware({
     router: appRouter,

@@ -7,7 +7,9 @@ export const createContext = ({
   req,
   res,
 }: trpcExpress.CreateExpressContextOptions) => ({
-  // db
+  req,
+  res,
+  db,
 }); // no context
 type Context = inferAsyncReturnType<typeof createContext>;
 
