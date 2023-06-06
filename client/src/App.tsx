@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  Center,
   Checkbox,
   ColorScheme,
   Container,
@@ -14,10 +13,10 @@ import {
   Modal,
   Stack,
   Text,
-  Title,
   Tooltip,
 } from "@mantine/core";
-import { RouterOutputs, trpc } from "./utils/trpc";
+
+import { type RouterOutputs, trpc } from "./utils/trpc";
 import { type FC, useState, useRef } from "react";
 import {
   IconPlus,
@@ -34,12 +33,10 @@ type Todo = RouterOutputs["todo"]["findAll"][number];
 function App() {
   const [theme, setTheme] = useState<ColorScheme>("dark");
 
-  const {
-    data: todos,
-    isLoading,
-    error,
-    isError,
-  } = trpc.todo.findAll.useQuery();
+  const { data: todos } = trpc.todo.findAll.useQuery();
+  const { data: example } = trpc.example.test.useQuery();
+
+  console.log({ example });
 
   return (
     <MantineProvider

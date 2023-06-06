@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsnd --respawn src/index.ts",
-    "start": "node build/index"
+    "dev": "tsnd --respawn src/index.ts"
   },
   "keywords": [],
   "author": "",
